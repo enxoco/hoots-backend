@@ -1,0 +1,140 @@
+datasource postgresql {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "node_modules/.prisma/client"
+}
+
+model User {
+  id       String  @id @default(cuid())
+  name     String?
+  email    String? @unique
+  password String?
+}
+
+model Location {
+  id                                 String     @id @default(cuid())
+  isVisible                          Boolean?
+  is_comingSoon                      Boolean?
+  c_comingSoonText                   String?
+  c_locationName                     String?
+  c_locationShortName                String?
+  address                            String?
+  addressLine2                       String?
+  city                               String?
+  region                             String?
+  postalCode                         String?
+  mainPhone                          String?
+  c_shortDescription                 String?
+  description                        String?
+  c_cateringUrl                      String?
+  orderUrl                           String?
+  c_oloId                            String?
+  c_yextId                           String?
+  c_masthead_filesize                Int?
+  c_masthead_extension               String?
+  c_masthead_width                   Int?
+  c_masthead_height                  Int?
+  c_masthead_mode                    String?
+  c_masthead_id                      String?
+  promo                              Promo?     @relation("Location_promo", fields: [promoId], references: [id])
+  promoId                            String?    @map("promo")
+  geocodedCoordinate                 Json?
+  timezone                           String?
+  c_locationSlug                     String?
+  c_mapUrl                           String?
+  meta                               Json?
+  last_modified                      DateTime?
+  from_Promo_locations               Promo[]    @relation("Promo_locations_many")
+  from_MenuItem_locationAvailability MenuItem[] @relation("MenuItem_locationAvailability_many")
+
+  @@index([promoId])
+}
+
+model Promo {
+  id                  String     @id @default(cuid())
+  name                String?
+  description         String?
+  url                 String?
+  image_filesize      Int?
+  image_extension     String?
+  image_width         Int?
+  image_height        Int?
+  image_mode          String?
+  image_id            String?
+  alt                 String?
+  locations           Location[] @relation("Promo_locations_many")
+  from_Location_promo Location[] @relation("Location_promo")
+}
+
+model MenuItem {
+  id                          String             @id @default(cuid())
+  image_filesize              Int?
+  image_extension             String?
+  image_width                 Int?
+  image_height                Int?
+  image_mode                  String?
+  image_id                    String?
+  title                       String?
+  description                 String?
+  ctaText                     String?
+  ctaUrl                      String?
+  category                    MenuItemCategory?  @relation("MenuItem_category", fields: [categoryId], references: [id])
+  categoryId                  String?            @map("category")
+  locationAvailability        Location[]         @relation("MenuItem_locationAvailability_many")
+  from_MenuItemCategory_items MenuItemCategory[] @relation("MenuItemCategory_items_many")
+
+  @@index([categoryId])
+}
+
+model MenuItemCategory {
+  id                     String     @id @default(cuid())
+  name                   String?
+  image_filesize         Int?
+  image_extension        String?
+  image_width            Int?
+  image_height           Int?
+  image_mode             String?
+  image_id               String?
+  items                  MenuItem[] @relation("MenuItemCategory_items_many")
+  from_MenuItem_category MenuItem[] @relation("MenuItem_category")
+}
+
+model CalloutTile {
+  id                   String  @id @default(cuid())
+  imageLeft_filesize   Int?
+  imageLeft_extension  String?
+  imageLeft_width      Int?
+  imageLeft_height     Int?
+  imageLeft_mode       String?
+  imageLeft_id         String?
+  imageRight_filesize  Int?
+  imageRight_extension String?
+  imageRight_width     Int?
+  imageRight_height    Int?
+  imageRight_mode      String?
+  imageRight_id        String?
+  headlineLeft         String?
+  headlineRight        String?
+  descriptionLeft      String?
+  descriptionRight     String?
+  ctaTextLeft          String?
+  ctaTextRight         String?
+  ctaUrlLeft           String?
+  ctaUrlRight          String?
+}
+
+model Post {
+  id      String @id @default(cuid())
+  content Json?
+}
+
+model Banner {
+  id       String  @id @default(cuid())
+  title    String?
+  subTitle String?
+  ctas     Json?
+}

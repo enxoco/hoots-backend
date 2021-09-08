@@ -1,0 +1,966 @@
+input CreateInitialUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+type Mutation {
+  createInitialUser(
+    data: CreateInitialUserInput!
+  ): UserAuthenticationWithPasswordSuccess!
+  authenticateUserWithPassword(
+    email: String!
+    password: String!
+  ): UserAuthenticationWithPasswordResult!
+  createUser(data: UserCreateInput!): User
+  createUsers(data: [UserCreateInput!]!): [User]
+  updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User
+  updateUsers(data: [UserUpdateArgs!]!): [User]
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createLocation(data: LocationCreateInput!): Location
+  createLocations(data: [LocationCreateInput!]!): [Location]
+  updateLocation(
+    where: LocationWhereUniqueInput!
+    data: LocationUpdateInput!
+  ): Location
+  updateLocations(data: [LocationUpdateArgs!]!): [Location]
+  deleteLocation(where: LocationWhereUniqueInput!): Location
+  deleteLocations(where: [LocationWhereUniqueInput!]!): [Location]
+  createPromo(data: PromoCreateInput!): Promo
+  createPromos(data: [PromoCreateInput!]!): [Promo]
+  updatePromo(where: PromoWhereUniqueInput!, data: PromoUpdateInput!): Promo
+  updatePromos(data: [PromoUpdateArgs!]!): [Promo]
+  deletePromo(where: PromoWhereUniqueInput!): Promo
+  deletePromos(where: [PromoWhereUniqueInput!]!): [Promo]
+  createMenuItem(data: MenuItemCreateInput!): MenuItem
+  createMenuItems(data: [MenuItemCreateInput!]!): [MenuItem]
+  updateMenuItem(
+    where: MenuItemWhereUniqueInput!
+    data: MenuItemUpdateInput!
+  ): MenuItem
+  updateMenuItems(data: [MenuItemUpdateArgs!]!): [MenuItem]
+  deleteMenuItem(where: MenuItemWhereUniqueInput!): MenuItem
+  deleteMenuItems(where: [MenuItemWhereUniqueInput!]!): [MenuItem]
+  createMenuItemCategory(data: MenuItemCategoryCreateInput!): MenuItemCategory
+  createMenuItemCategories(
+    data: [MenuItemCategoryCreateInput!]!
+  ): [MenuItemCategory]
+  updateMenuItemCategory(
+    where: MenuItemCategoryWhereUniqueInput!
+    data: MenuItemCategoryUpdateInput!
+  ): MenuItemCategory
+  updateMenuItemCategories(
+    data: [MenuItemCategoryUpdateArgs!]!
+  ): [MenuItemCategory]
+  deleteMenuItemCategory(
+    where: MenuItemCategoryWhereUniqueInput!
+  ): MenuItemCategory
+  deleteMenuItemCategories(
+    where: [MenuItemCategoryWhereUniqueInput!]!
+  ): [MenuItemCategory]
+  createCalloutTile(data: CalloutTileCreateInput!): CalloutTile
+  createCalloutTiles(data: [CalloutTileCreateInput!]!): [CalloutTile]
+  updateCalloutTile(
+    where: CalloutTileWhereUniqueInput!
+    data: CalloutTileUpdateInput!
+  ): CalloutTile
+  updateCalloutTiles(data: [CalloutTileUpdateArgs!]!): [CalloutTile]
+  deleteCalloutTile(where: CalloutTileWhereUniqueInput!): CalloutTile
+  deleteCalloutTiles(where: [CalloutTileWhereUniqueInput!]!): [CalloutTile]
+  createPost(data: PostCreateInput!): Post
+  createPosts(data: [PostCreateInput!]!): [Post]
+  updatePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): Post
+  updatePosts(data: [PostUpdateArgs!]!): [Post]
+  deletePost(where: PostWhereUniqueInput!): Post
+  deletePosts(where: [PostWhereUniqueInput!]!): [Post]
+  createBanner(data: BannerCreateInput!): Banner
+  createBanners(data: [BannerCreateInput!]!): [Banner]
+  updateBanner(where: BannerWhereUniqueInput!, data: BannerUpdateInput!): Banner
+  updateBanners(data: [BannerUpdateArgs!]!): [Banner]
+  deleteBanner(where: BannerWhereUniqueInput!): Banner
+  deleteBanners(where: [BannerWhereUniqueInput!]!): [Banner]
+  endSession: Boolean!
+}
+
+union AuthenticatedItem = User
+
+union UserAuthenticationWithPasswordResult =
+    UserAuthenticationWithPasswordSuccess
+  | UserAuthenticationWithPasswordFailure
+
+type UserAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: User!
+}
+
+type UserAuthenticationWithPasswordFailure {
+  code: PasswordAuthErrorCode!
+  message: String!
+}
+
+enum PasswordAuthErrorCode {
+  FAILURE
+  IDENTITY_NOT_FOUND
+  SECRET_NOT_SET
+  MULTIPLE_IDENTITY_MATCHES
+  SECRET_MISMATCH
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  password: PasswordState
+}
+
+type PasswordState {
+  isSet: Boolean!
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  email: StringNullableFilter
+  password: PasswordFilter
+}
+
+input IDFilter {
+  equals: ID
+  in: [ID!]
+  notIn: [ID!]
+  lt: ID
+  lte: ID
+  gt: ID
+  gte: ID
+  not: IDFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: NestedStringNullableFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
+}
+
+input NestedStringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: NestedStringNullableFilter
+}
+
+input PasswordFilter {
+  isSet: Boolean!
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+input UserOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  email: OrderDirection
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+}
+
+input UserUpdateArgs {
+  where: UserWhereUniqueInput!
+  data: UserUpdateInput!
+}
+
+input UserCreateInput {
+  name: String
+  email: String
+  password: String
+}
+
+type Location {
+  id: ID!
+  isVisible: Boolean
+  is_comingSoon: Boolean
+  c_comingSoonText: String
+  c_locationName: String
+  c_locationShortName: String
+  address: String
+  addressLine2: String
+  city: String
+  region: String
+  postalCode: String
+  mainPhone: String
+  c_shortDescription: String
+  description: String
+  c_cateringUrl: String
+  orderUrl: String
+  c_oloId: String
+  c_yextId: String
+  c_masthead: ImageFieldOutput
+  promo: Promo
+  geocodedCoordinate: JSON
+  timezone: String
+  c_locationSlug: String
+  c_mapUrl: String
+  meta: JSON
+  last_modified: String
+}
+
+interface ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  ref: String!
+  src: String!
+}
+
+enum ImageExtension {
+  jpg
+  png
+  webp
+  gif
+}
+
+input LocationWhereInput {
+  AND: [LocationWhereInput!]
+  OR: [LocationWhereInput!]
+  NOT: [LocationWhereInput!]
+  id: IDFilter
+  isVisible: BooleanNullableFilter
+  is_comingSoon: BooleanNullableFilter
+  c_comingSoonText: StringNullableFilter
+  c_locationName: StringNullableFilter
+  c_locationShortName: StringNullableFilter
+  address: StringNullableFilter
+  addressLine2: StringNullableFilter
+  city: StringNullableFilter
+  region: StringNullableFilter
+  postalCode: StringNullableFilter
+  mainPhone: StringNullableFilter
+  c_shortDescription: StringNullableFilter
+  description: StringNullableFilter
+  c_cateringUrl: StringNullableFilter
+  orderUrl: StringNullableFilter
+  c_oloId: StringNullableFilter
+  c_yextId: StringNullableFilter
+  promo: PromoWhereInput
+  timezone: StringNullableFilter
+  c_locationSlug: StringNullableFilter
+  c_mapUrl: StringNullableFilter
+  last_modified: DateTimeNullableFilter
+}
+
+input BooleanNullableFilter {
+  equals: Boolean
+  not: BooleanNullableFilter
+}
+
+input DateTimeNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  not: DateTimeNullableFilter
+}
+
+input LocationWhereUniqueInput {
+  id: ID
+}
+
+input LocationOrderByInput {
+  id: OrderDirection
+  isVisible: OrderDirection
+  is_comingSoon: OrderDirection
+  c_comingSoonText: OrderDirection
+  c_locationName: OrderDirection
+  c_locationShortName: OrderDirection
+  address: OrderDirection
+  addressLine2: OrderDirection
+  city: OrderDirection
+  region: OrderDirection
+  postalCode: OrderDirection
+  mainPhone: OrderDirection
+  c_shortDescription: OrderDirection
+  description: OrderDirection
+  c_cateringUrl: OrderDirection
+  orderUrl: OrderDirection
+  c_oloId: OrderDirection
+  c_yextId: OrderDirection
+  timezone: OrderDirection
+  c_locationSlug: OrderDirection
+  c_mapUrl: OrderDirection
+  last_modified: OrderDirection
+}
+
+input LocationUpdateInput {
+  isVisible: Boolean
+  is_comingSoon: Boolean
+  c_comingSoonText: String
+  c_locationName: String
+  c_locationShortName: String
+  address: String
+  addressLine2: String
+  city: String
+  region: String
+  postalCode: String
+  mainPhone: String
+  c_shortDescription: String
+  description: String
+  c_cateringUrl: String
+  orderUrl: String
+  c_oloId: String
+  c_yextId: String
+  c_masthead: ImageFieldInput
+  promo: PromoRelateToOneForUpdateInput
+  geocodedCoordinate: JSON
+  timezone: String
+  c_locationSlug: String
+  c_mapUrl: String
+  meta: JSON
+  last_modified: String
+}
+
+input ImageFieldInput {
+  upload: Upload
+  ref: String
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
+
+input PromoRelateToOneForUpdateInput {
+  create: PromoCreateInput
+  connect: PromoWhereUniqueInput
+  disconnect: Boolean
+}
+
+input LocationUpdateArgs {
+  where: LocationWhereUniqueInput!
+  data: LocationUpdateInput!
+}
+
+input LocationCreateInput {
+  isVisible: Boolean
+  is_comingSoon: Boolean
+  c_comingSoonText: String
+  c_locationName: String
+  c_locationShortName: String
+  address: String
+  addressLine2: String
+  city: String
+  region: String
+  postalCode: String
+  mainPhone: String
+  c_shortDescription: String
+  description: String
+  c_cateringUrl: String
+  orderUrl: String
+  c_oloId: String
+  c_yextId: String
+  c_masthead: ImageFieldInput
+  promo: PromoRelateToOneForCreateInput
+  geocodedCoordinate: JSON
+  timezone: String
+  c_locationSlug: String
+  c_mapUrl: String
+  meta: JSON
+  last_modified: String
+}
+
+input PromoRelateToOneForCreateInput {
+  create: PromoCreateInput
+  connect: PromoWhereUniqueInput
+}
+
+type Promo {
+  id: ID!
+  name: String
+  description: String
+  url: String
+  image: ImageFieldOutput
+  alt: String
+  locations(
+    where: LocationWhereInput! = {}
+    orderBy: [LocationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Location!]
+  locationsCount(where: LocationWhereInput! = {}): Int
+}
+
+input PromoWhereInput {
+  AND: [PromoWhereInput!]
+  OR: [PromoWhereInput!]
+  NOT: [PromoWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  description: StringNullableFilter
+  url: StringNullableFilter
+  alt: StringNullableFilter
+  locations: LocationManyRelationFilter
+}
+
+input LocationManyRelationFilter {
+  every: LocationWhereInput
+  some: LocationWhereInput
+  none: LocationWhereInput
+}
+
+input PromoWhereUniqueInput {
+  id: ID
+}
+
+input PromoOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
+  url: OrderDirection
+  alt: OrderDirection
+}
+
+input PromoUpdateInput {
+  name: String
+  description: String
+  url: String
+  image: ImageFieldInput
+  alt: String
+  locations: LocationRelateToManyForUpdateInput
+}
+
+input LocationRelateToManyForUpdateInput {
+  disconnect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  create: [LocationCreateInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+input PromoUpdateArgs {
+  where: PromoWhereUniqueInput!
+  data: PromoUpdateInput!
+}
+
+input PromoCreateInput {
+  name: String
+  description: String
+  url: String
+  image: ImageFieldInput
+  alt: String
+  locations: LocationRelateToManyForCreateInput
+}
+
+input LocationRelateToManyForCreateInput {
+  create: [LocationCreateInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+type MenuItem {
+  id: ID!
+  image: ImageFieldOutput
+  title: String
+  description: String
+  ctaText: String
+  ctaUrl: String
+  category: MenuItemCategory
+  locationAvailability(
+    where: LocationWhereInput! = {}
+    orderBy: [LocationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Location!]
+  locationAvailabilityCount(where: LocationWhereInput! = {}): Int
+}
+
+input MenuItemWhereInput {
+  AND: [MenuItemWhereInput!]
+  OR: [MenuItemWhereInput!]
+  NOT: [MenuItemWhereInput!]
+  id: IDFilter
+  title: StringNullableFilter
+  description: StringNullableFilter
+  ctaText: StringNullableFilter
+  ctaUrl: StringNullableFilter
+  category: MenuItemCategoryWhereInput
+  locationAvailability: LocationManyRelationFilter
+}
+
+input MenuItemWhereUniqueInput {
+  id: ID
+}
+
+input MenuItemOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  description: OrderDirection
+  ctaText: OrderDirection
+  ctaUrl: OrderDirection
+}
+
+input MenuItemUpdateInput {
+  image: ImageFieldInput
+  title: String
+  description: String
+  ctaText: String
+  ctaUrl: String
+  category: MenuItemCategoryRelateToOneForUpdateInput
+  locationAvailability: LocationRelateToManyForUpdateInput
+}
+
+input MenuItemCategoryRelateToOneForUpdateInput {
+  create: MenuItemCategoryCreateInput
+  connect: MenuItemCategoryWhereUniqueInput
+  disconnect: Boolean
+}
+
+input MenuItemUpdateArgs {
+  where: MenuItemWhereUniqueInput!
+  data: MenuItemUpdateInput!
+}
+
+input MenuItemCreateInput {
+  image: ImageFieldInput
+  title: String
+  description: String
+  ctaText: String
+  ctaUrl: String
+  category: MenuItemCategoryRelateToOneForCreateInput
+  locationAvailability: LocationRelateToManyForCreateInput
+}
+
+input MenuItemCategoryRelateToOneForCreateInput {
+  create: MenuItemCategoryCreateInput
+  connect: MenuItemCategoryWhereUniqueInput
+}
+
+type MenuItemCategory {
+  id: ID!
+  name: String
+  image: ImageFieldOutput
+  items(
+    where: MenuItemWhereInput! = {}
+    orderBy: [MenuItemOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [MenuItem!]
+  itemsCount(where: MenuItemWhereInput! = {}): Int
+}
+
+input MenuItemCategoryWhereInput {
+  AND: [MenuItemCategoryWhereInput!]
+  OR: [MenuItemCategoryWhereInput!]
+  NOT: [MenuItemCategoryWhereInput!]
+  id: IDFilter
+  name: StringNullableFilter
+  items: MenuItemManyRelationFilter
+}
+
+input MenuItemManyRelationFilter {
+  every: MenuItemWhereInput
+  some: MenuItemWhereInput
+  none: MenuItemWhereInput
+}
+
+input MenuItemCategoryWhereUniqueInput {
+  id: ID
+}
+
+input MenuItemCategoryOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input MenuItemCategoryUpdateInput {
+  name: String
+  image: ImageFieldInput
+  items: MenuItemRelateToManyForUpdateInput
+}
+
+input MenuItemRelateToManyForUpdateInput {
+  disconnect: [MenuItemWhereUniqueInput!]
+  set: [MenuItemWhereUniqueInput!]
+  create: [MenuItemCreateInput!]
+  connect: [MenuItemWhereUniqueInput!]
+}
+
+input MenuItemCategoryUpdateArgs {
+  where: MenuItemCategoryWhereUniqueInput!
+  data: MenuItemCategoryUpdateInput!
+}
+
+input MenuItemCategoryCreateInput {
+  name: String
+  image: ImageFieldInput
+  items: MenuItemRelateToManyForCreateInput
+}
+
+input MenuItemRelateToManyForCreateInput {
+  create: [MenuItemCreateInput!]
+  connect: [MenuItemWhereUniqueInput!]
+}
+
+type CalloutTile {
+  id: ID!
+  imageLeft: ImageFieldOutput
+  imageRight: ImageFieldOutput
+  headlineLeft: String
+  headlineRight: String
+  descriptionLeft: String
+  descriptionRight: String
+  ctaTextLeft: String
+  ctaTextRight: String
+  ctaUrlLeft: String
+  ctaUrlRight: String
+}
+
+type LocalImageFieldOutput implements ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  ref: String!
+  src: String!
+}
+
+input CalloutTileWhereInput {
+  AND: [CalloutTileWhereInput!]
+  OR: [CalloutTileWhereInput!]
+  NOT: [CalloutTileWhereInput!]
+  id: IDFilter
+  headlineLeft: StringNullableFilter
+  headlineRight: StringNullableFilter
+  descriptionLeft: StringNullableFilter
+  descriptionRight: StringNullableFilter
+  ctaTextLeft: StringNullableFilter
+  ctaTextRight: StringNullableFilter
+  ctaUrlLeft: StringNullableFilter
+  ctaUrlRight: StringNullableFilter
+}
+
+input CalloutTileWhereUniqueInput {
+  id: ID
+}
+
+input CalloutTileOrderByInput {
+  id: OrderDirection
+  headlineLeft: OrderDirection
+  headlineRight: OrderDirection
+  descriptionLeft: OrderDirection
+  descriptionRight: OrderDirection
+  ctaTextLeft: OrderDirection
+  ctaTextRight: OrderDirection
+  ctaUrlLeft: OrderDirection
+  ctaUrlRight: OrderDirection
+}
+
+input CalloutTileUpdateInput {
+  imageLeft: ImageFieldInput
+  imageRight: ImageFieldInput
+  headlineLeft: String
+  headlineRight: String
+  descriptionLeft: String
+  descriptionRight: String
+  ctaTextLeft: String
+  ctaTextRight: String
+  ctaUrlLeft: String
+  ctaUrlRight: String
+}
+
+input CalloutTileUpdateArgs {
+  where: CalloutTileWhereUniqueInput!
+  data: CalloutTileUpdateInput!
+}
+
+input CalloutTileCreateInput {
+  imageLeft: ImageFieldInput
+  imageRight: ImageFieldInput
+  headlineLeft: String
+  headlineRight: String
+  descriptionLeft: String
+  descriptionRight: String
+  ctaTextLeft: String
+  ctaTextRight: String
+  ctaUrlLeft: String
+  ctaUrlRight: String
+}
+
+type Post {
+  id: ID!
+  content: Post_content_DocumentField
+}
+
+type Post_content_DocumentField {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input PostWhereInput {
+  AND: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  NOT: [PostWhereInput!]
+  id: IDFilter
+}
+
+input PostWhereUniqueInput {
+  id: ID
+}
+
+input PostOrderByInput {
+  id: OrderDirection
+}
+
+input PostUpdateInput {
+  content: JSON
+}
+
+input PostUpdateArgs {
+  where: PostWhereUniqueInput!
+  data: PostUpdateInput!
+}
+
+input PostCreateInput {
+  content: JSON
+}
+
+type Banner {
+  id: ID!
+  title: String
+  subTitle: String
+  ctas: Banner_ctas_DocumentField
+}
+
+type Banner_ctas_DocumentField {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input BannerWhereInput {
+  AND: [BannerWhereInput!]
+  OR: [BannerWhereInput!]
+  NOT: [BannerWhereInput!]
+  id: IDFilter
+  title: StringNullableFilter
+  subTitle: StringNullableFilter
+}
+
+input BannerWhereUniqueInput {
+  id: ID
+}
+
+input BannerOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  subTitle: OrderDirection
+}
+
+input BannerUpdateInput {
+  title: String
+  subTitle: String
+  ctas: JSON
+}
+
+input BannerUpdateArgs {
+  where: BannerWhereUniqueInput!
+  data: BannerUpdateInput!
+}
+
+input BannerCreateInput {
+  title: String
+  subTitle: String
+  ctas: JSON
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+  @specifiedBy(
+    url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
+  )
+
+type Query {
+  authenticatedItem: AuthenticatedItem
+  users(
+    where: UserWhereInput! = {}
+    orderBy: [UserOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [User!]
+  user(where: UserWhereUniqueInput!): User
+  usersCount(where: UserWhereInput! = {}): Int
+  locations(
+    where: LocationWhereInput! = {}
+    orderBy: [LocationOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Location!]
+  location(where: LocationWhereUniqueInput!): Location
+  locationsCount(where: LocationWhereInput! = {}): Int
+  promos(
+    where: PromoWhereInput! = {}
+    orderBy: [PromoOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Promo!]
+  promo(where: PromoWhereUniqueInput!): Promo
+  promosCount(where: PromoWhereInput! = {}): Int
+  menuItems(
+    where: MenuItemWhereInput! = {}
+    orderBy: [MenuItemOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [MenuItem!]
+  menuItem(where: MenuItemWhereUniqueInput!): MenuItem
+  menuItemsCount(where: MenuItemWhereInput! = {}): Int
+  menuItemCategories(
+    where: MenuItemCategoryWhereInput! = {}
+    orderBy: [MenuItemCategoryOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [MenuItemCategory!]
+  menuItemCategory(where: MenuItemCategoryWhereUniqueInput!): MenuItemCategory
+  menuItemCategoriesCount(where: MenuItemCategoryWhereInput! = {}): Int
+  calloutTiles(
+    where: CalloutTileWhereInput! = {}
+    orderBy: [CalloutTileOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [CalloutTile!]
+  calloutTile(where: CalloutTileWhereUniqueInput!): CalloutTile
+  calloutTilesCount(where: CalloutTileWhereInput! = {}): Int
+  posts(
+    where: PostWhereInput! = {}
+    orderBy: [PostOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Post!]
+  post(where: PostWhereUniqueInput!): Post
+  postsCount(where: PostWhereInput! = {}): Int
+  banners(
+    where: BannerWhereInput! = {}
+    orderBy: [BannerOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Banner!]
+  banner(where: BannerWhereUniqueInput!): Banner
+  bannersCount(where: BannerWhereInput! = {}): Int
+  keystone: KeystoneMeta!
+}
+
+type KeystoneMeta {
+  adminMeta: KeystoneAdminMeta!
+}
+
+type KeystoneAdminMeta {
+  enableSignout: Boolean!
+  enableSessionItem: Boolean!
+  lists: [KeystoneAdminUIListMeta!]!
+  list(key: String!): KeystoneAdminUIListMeta
+}
+
+type KeystoneAdminUIListMeta {
+  key: String!
+  itemQueryName: String!
+  listQueryName: String!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  path: String!
+  label: String!
+  singular: String!
+  plural: String!
+  description: String
+  initialColumns: [String!]!
+  pageSize: Int!
+  labelField: String!
+  fields: [KeystoneAdminUIFieldMeta!]!
+  initialSort: KeystoneAdminUISort
+  isHidden: Boolean!
+}
+
+type KeystoneAdminUIFieldMeta {
+  path: String!
+  label: String!
+  isOrderable: Boolean!
+  fieldMeta: JSON
+  viewsIndex: Int!
+  customViewsIndex: Int
+  createView: KeystoneAdminUIFieldMetaCreateView!
+  listView: KeystoneAdminUIFieldMetaListView!
+  itemView(id: ID!): KeystoneAdminUIFieldMetaItemView
+  search: QueryMode
+}
+
+type KeystoneAdminUIFieldMetaCreateView {
+  fieldMode: KeystoneAdminUIFieldMetaCreateViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaCreateViewFieldMode {
+  edit
+  hidden
+}
+
+type KeystoneAdminUIFieldMetaListView {
+  fieldMode: KeystoneAdminUIFieldMetaListViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaListViewFieldMode {
+  read
+  hidden
+}
+
+type KeystoneAdminUIFieldMetaItemView {
+  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaItemViewFieldMode {
+  edit
+  read
+  hidden
+}
+
+type KeystoneAdminUISort {
+  field: String!
+  direction: KeystoneAdminUISortDirection!
+}
+
+enum KeystoneAdminUISortDirection {
+  ASC
+  DESC
+}
