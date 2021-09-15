@@ -14,6 +14,7 @@
     "@keystone-next/fields-document": "^8.0.0",
     "@keystone-next/keystone": "^24.0.1",
     "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
     "typescript": "^4.3.5"
   }
 }

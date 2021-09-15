@@ -2,7 +2,7 @@ import { config } from "@keystone-next/keystone/schema";
 import { statelessSessions } from "@keystone-next/keystone/session";
 import { createAuth } from "@keystone-next/auth";
 import { insertSeedData } from "./seed-data";
-import { SESSION_SECRET } from './config';
+import { DATABASE_URL, SESSION_SECRET } from "./config";
 
 import { lists } from "./schema";
 
@@ -46,9 +46,7 @@ export default withAuth(
     },
     db: {
       adapter: "prisma_postgresql",
-      url:
-        process.env.DATABASE_URL ||
-        "postgres://mikeconrad@localhost/hoots-keystone",
+      url: DATABASE_URL,
       async onConnect(context) {
         console.log("Connected to the database!");
         if (process.argv.includes("--seed-data")) {
