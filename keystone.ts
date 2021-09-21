@@ -52,11 +52,6 @@ export default withAuth(
         }
       },
     },
-    graphql: {
-      apolloConfig: {
-        playground: true,
-      },
-    },
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
     },
