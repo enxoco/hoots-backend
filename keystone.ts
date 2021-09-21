@@ -9,9 +9,7 @@ let sessionSecret = process.env.SESSION_SECRET;
 
 if (!sessionSecret) {
   if (process.env.NODE_ENV === "production") {
-    throw new Error(
-      "The SESSION_SECRET environment variable must be set in production"
-    );
+    throw new Error("The SESSION_SECRET environment variable must be set in production");
   } else {
     sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
   }
@@ -45,14 +43,17 @@ export default withAuth(
     },
     db: {
       adapter: "prisma_postgresql",
-      url:
-        process.env.DATABASE_URL ||
-        "postgres://mikeconrad@localhost/hoots-keystone",
+      url: process.env.DATABASE_URL || "postgres://omzwbounlpiqtd:a81d11f0433e8a7189a3d4373ff68ec112e6c6a07af865b408ccf1a80a59c616@ec2-3-225-204-194.compute-1.amazonaws.com:5432/dej8uspfuibv0l",
       async onConnect(context) {
         console.log("Connected to the database!");
         if (process.argv.includes("--seed-data")) {
           await insertSeedData(context);
         }
+      },
+    },
+    graphql: {
+      apolloConfig: {
+        playground: true,
       },
     },
     ui: {
