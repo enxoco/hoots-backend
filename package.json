@@ -3,13 +3,17 @@
   "version": "2.0.12",
   "private": true,
   "scripts": {
-    "dev": "keystone-next dev",
+    "dev:backend": "keystone-next dev -p 3333",
+    "dev:frontend": "next dev -p 3001",
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
     "start": "keystone-next start",
     "build": "keystone-next build",
     "postinstall": "keystone-next postinstall"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.6.8",
     "@keystone-next/auth": "^31.0.0",
+    "@keystone-next/document-renderer": "^4.0.0",
     "@keystone-next/fields": "^14.0.0",
     "@keystone-next/fields-document": "^8.0.0",
     "@keystone-next/keystone": "^24.0.1",

@@ -1,5 +1,4 @@
 /* @jsx jsx */
-
 import { jsx, useTheme } from '@keystone-ui/core';
 import { InfoIcon } from '@keystone-ui/icons/icons/InfoIcon';
 import { AlertTriangleIcon } from '@keystone-ui/icons/icons/AlertTriangleIcon';
@@ -13,6 +12,7 @@ import {
   ToolbarGroup,
   ToolbarSeparator,
 } from '@keystone-next/fields-document/primitives';
+import { Box } from "@chakra-ui/react"
 
 const noticeIconMap = {
   info: InfoIcon,
@@ -22,6 +22,75 @@ const noticeIconMap = {
 };
 
 export const componentBlocks = {
+  infoBanner: component({
+    component: props => {
+      return (
+        <div className="c-feature__promo-banner">
+        <h2 className="c-feature__promo-banner-title show--desktop text-color--blue">
+          {props.titleDesktop}
+        </h2>
+        <h2 className="c-feature__promo-banner-title show--mobile text-color--blue">
+        {props.titleMobile}
+      </h2>
+        
+        <p className="c-feature__promo-banner-description text-color--brown">{props.location}</p>
+        <div className="c-feature__promo-banner_cta__wrapper">
+        {props.ctaOne.discriminant ? (
+          <a href="" className="c-feature__promo-banner-cta c-cta c-cta--shadow">{props.ctaOne.value.text}</a>
+          ) : null}
+                  {props.ctaTwo.discriminant ? (
+          <a href="" className="c-feature__promo-banner-cta c-cta c-cta--shadow">{props.ctaTwo.value.text}</a>
+          ) : null}
+        </div>
+    </div>
+      )
+    },
+    label: 'Info Banner',
+    chromeless: true,
+    props: {
+      titleDesktop: fields.child({ kind: 'block', placeholder: 'Desktop Title...' }),
+      titleMobile: fields.child({ kind: 'block', placeholder: 'Mobile Title...' }),
+      location: fields.child({ kind: 'block', placeholder: 'Location...' }),
+      ctaOne: fields.conditional(fields.checkbox({ label: 'Show CTA' }), {
+        false: fields.empty(),
+        true: fields.object({
+          text: fields.child({ kind: 'block', placeholder: 'CTA...' }),
+          href: fields.url({ label: 'Call to action link' }),
+        }),
+      }),
+      ctaTwo: fields.conditional(fields.checkbox({ label: 'Show CTA' }), {
+        false: fields.empty(),
+        true: fields.object({
+          text: fields.child({ kind: 'block', placeholder: 'CTA...' }),
+          href: fields.url({ label: 'Call to action link' }),
+        }),
+      }),
+    },
+  }),
+  featureTile: component({
+    component: props => {
+      return (
+        <a className="c-feature__tile c-feature__tile--large" href="/food">
+          <figure className="c-feature__tile-img">
+            <img src={props.featureTileImage.value} alt="Hoots Wings | Original Breaded Wings | Wings All the Ways, and So Much More!" height="338" width="338" />
+          </figure>
+          <div className="c-feature__tile-overlay">
+            <h2 className="c-feature__tile-title">choose your thing</h2>
+          </div>
+        </a>
+      )
+    },
+    label: 'Feature Tile',
+    chromeless: true,
+    props: {
+      featureTileImage: fields.text({
+        label: 'Image URL',
+        defaultValue: 'https://hootswings.com/perch/resources/mastheads/hootsmastheadchooseyourthing.webp',
+      }),
+        // pageLink: fields.child({ kind: 'block', placeholder: 'Link' }),
+        // title: fields.child({ kind: 'block', placeholder: 'title...' }),
+    },
+  }),
   hero: component({
     component: props => {
       return (
@@ -89,7 +158,7 @@ export const componentBlocks = {
       content: fields.child({ kind: 'block', placeholder: '...' }),
       imageSrc: fields.text({
         label: 'Image URL',
-        defaultValue: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809',
+        defaultValue: 'https://hootswings.com/perch/resources/mastheads/hootsmastheadchooseyourthing.webp',
       }),
       cta: fields.conditional(fields.checkbox({ label: 'Show CTA' }), {
         false: fields.empty(),
@@ -220,10 +289,6 @@ export const componentBlocks = {
         dividers: 'inherit',
         links: 'inherit',
         relationships: 'inherit',
-        layouts: [
-            [1, 1],
-            [1, 1, 1],
-          ],
       }),
     },
     toolbar({ props, onRemove }) {

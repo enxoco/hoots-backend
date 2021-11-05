@@ -68,6 +68,15 @@ type Mutation {
   updateCalloutTiles(data: [CalloutTileUpdateArgs!]!): [CalloutTile]
   deleteCalloutTile(where: CalloutTileWhereUniqueInput!): CalloutTile
   deleteCalloutTiles(where: [CalloutTileWhereUniqueInput!]!): [CalloutTile]
+  createInfoBanner(data: InfoBannerCreateInput!): InfoBanner
+  createInfoBanners(data: [InfoBannerCreateInput!]!): [InfoBanner]
+  updateInfoBanner(
+    where: InfoBannerWhereUniqueInput!
+    data: InfoBannerUpdateInput!
+  ): InfoBanner
+  updateInfoBanners(data: [InfoBannerUpdateArgs!]!): [InfoBanner]
+  deleteInfoBanner(where: InfoBannerWhereUniqueInput!): InfoBanner
+  deleteInfoBanners(where: [InfoBannerWhereUniqueInput!]!): [InfoBanner]
   createPost(data: PostCreateInput!): Post
   createPosts(data: [PostCreateInput!]!): [Post]
   updatePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): Post
@@ -723,9 +732,66 @@ input CalloutTileCreateInput {
   ctaUrlRight: String
 }
 
+type InfoBanner {
+  id: ID!
+  desktopTitle: String
+  mobileTitle: String
+  location: String
+  ctaOne: String
+}
+
+input InfoBannerWhereInput {
+  AND: [InfoBannerWhereInput!]
+  OR: [InfoBannerWhereInput!]
+  NOT: [InfoBannerWhereInput!]
+  id: IDFilter
+  desktopTitle: StringNullableFilter
+  mobileTitle: StringNullableFilter
+  location: StringNullableFilter
+  ctaOne: StringNullableFilter
+}
+
+input InfoBannerWhereUniqueInput {
+  id: ID
+}
+
+input InfoBannerOrderByInput {
+  id: OrderDirection
+  desktopTitle: OrderDirection
+  mobileTitle: OrderDirection
+  location: OrderDirection
+  ctaOne: OrderDirection
+}
+
+input InfoBannerUpdateInput {
+  desktopTitle: String
+  mobileTitle: String
+  location: String
+  ctaOne: String
+}
+
+input InfoBannerUpdateArgs {
+  where: InfoBannerWhereUniqueInput!
+  data: InfoBannerUpdateInput!
+}
+
+input InfoBannerCreateInput {
+  desktopTitle: String
+  mobileTitle: String
+  location: String
+  ctaOne: String
+}
+
 type Post {
   id: ID!
+  masthead: Post_masthead_DocumentField
   content: Post_content_DocumentField
+  slug: String
+  title: String
+}
+
+type Post_masthead_DocumentField {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Post_content_DocumentField {
@@ -737,6 +803,8 @@ input PostWhereInput {
   OR: [PostWhereInput!]
   NOT: [PostWhereInput!]
   id: IDFilter
+  slug: StringNullableFilter
+  title: StringNullableFilter
 }
 
 input PostWhereUniqueInput {
@@ -745,10 +813,15 @@ input PostWhereUniqueInput {
 
 input PostOrderByInput {
   id: OrderDirection
+  slug: OrderDirection
+  title: OrderDirection
 }
 
 input PostUpdateInput {
+  masthead: JSON
   content: JSON
+  slug: String
+  title: String
 }
 
 input PostUpdateArgs {
@@ -757,7 +830,10 @@ input PostUpdateArgs {
 }
 
 input PostCreateInput {
+  masthead: JSON
   content: JSON
+  slug: String
+  title: String
 }
 
 type Banner {
@@ -865,6 +941,14 @@ type Query {
   ): [CalloutTile!]
   calloutTile(where: CalloutTileWhereUniqueInput!): CalloutTile
   calloutTilesCount(where: CalloutTileWhereInput! = {}): Int
+  infoBanners(
+    where: InfoBannerWhereInput! = {}
+    orderBy: [InfoBannerOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [InfoBanner!]
+  infoBanner(where: InfoBannerWhereUniqueInput!): InfoBanner
+  infoBannersCount(where: InfoBannerWhereInput! = {}): Int
   posts(
     where: PostWhereInput! = {}
     orderBy: [PostOrderByInput!]! = []

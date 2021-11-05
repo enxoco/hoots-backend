@@ -127,9 +127,20 @@ model CalloutTile {
   ctaUrlRight          String?
 }
 
+model InfoBanner {
+  id           String  @id @default(cuid())
+  desktopTitle String?
+  mobileTitle  String?
+  location     String?
+  ctaOne       String?
+}
+
 model Post {
-  id      String @id @default(cuid())
-  content Json?
+  id       String  @id @default(cuid())
+  masthead Json?
+  content  Json?
+  slug     String?
+  title    String?
 }
 
 model Banner {

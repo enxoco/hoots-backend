@@ -1,40 +1,25 @@
 import { createSchema, list } from "@keystone-next/keystone/schema";
-import {
-  text,
-  relationship,
-  password,
-  timestamp,
-  select,
-  checkbox,
-  image,
-  json,
-} from "@keystone-next/fields";
+import { text, relationship, password, timestamp, select, checkbox, image, json } from "@keystone-next/fields";
 import { document } from "@keystone-next/fields-document";
 import { componentBlocks } from "./component-blocks";
 
 export const lists = createSchema({
   User: list({
-    ui: {
-      listView: {
-        initialColumns: ["name", "email"],
-      },
-    },
     fields: {
       name: text({ isRequired: true }),
       email: text({ isRequired: true, isUnique: true }),
       password: password({ isRequired: true }),
     },
+    ui: {
+      listView: {
+        initialColumns: ["name", "email"],
+      },
+    },
   }),
   Location: list({
     ui: {
       listView: {
-        initialColumns: [
-          "c_locationName",
-          "c_oloId",
-          "isVisible",
-          "is_comingSoon",
-          "promo",
-        ],
+        initialColumns: ["c_locationName", "c_oloId", "isVisible", "is_comingSoon", "promo"],
       },
     },
     fields: {
@@ -141,9 +126,22 @@ export const lists = createSchema({
       ctaUrlRight: text({}),
     },
   }),
-  Post: list({
+  InfoBanner: list({
     fields: {
-      content: document({
+      desktopTitle: text({}),
+      mobileTitle: text({}),
+      location: text({}),
+      ctaOne: text({}),
+    },
+  }),
+  Post: list({
+    ui: {
+      listView: {
+        initialColumns: ["title", "slug"],
+      },
+    },
+    fields: {
+      masthead: document({
         formatting: true,
         dividers: true,
         links: true,
@@ -156,6 +154,22 @@ export const lists = createSchema({
         },
         componentBlocks,
       }),
+      content: document({
+        formatting: true,
+        dividers: true,
+        links: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [1, 1, 1, 1],
+        ],
+        ui: {
+          views: require.resolve("./component-blocks"),
+        },
+        componentBlocks,
+      }),
+      slug: text({}),
+      title: text({}),
     },
   }),
   Banner: list({
